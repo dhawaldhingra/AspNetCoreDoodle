@@ -1,0 +1,16 @@
+﻿@page "{productId:int}"
+@model AspNetCoreDoodle.Pages.ProductDetailsModel
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<h2>@Model.Product.ProductName</h2>
+
+<div>
+    ID: @Model.Product.ProductId
+
+</div>
+<div>Name: @Model.Product.ProductName</div>
+<div>Price: @Model.Product.Price</div>
+
+<a asp-page="./Dhawal" class="btn btn-primary">All Products</a>
