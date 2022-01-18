@@ -10,6 +10,7 @@ namespace AspNetCoreDoodle.Pages
         private readonly IProductData _productData;
         private readonly IHtmlHelper _htmlHelper;
 
+        [BindProperty]
         public Product Product { get; set; }
         public IEnumerable<SelectListItem> ProductCategories { get; set; }
 
@@ -17,18 +18,49 @@ namespace AspNetCoreDoodle.Pages
         {
             _productData = productData;
             _htmlHelper = htmlHelper;
-            
-        }
-        public IActionResult OnGet(int productId)
-        {
             ProductCategories = _htmlHelper.GetEnumSelectList<ProductCategory>();
-            var product = _productData.GetProduct(productId);
-            if(product == null)
+
+        }
+        public IActionResult OnGet(int? productId)
+        {
+            Product product;
+            if (productId.HasValue)
             {
-                return RedirectToPage("./NotFound");
+                product = _productData.GetProduct(productId.Value);
+                if (product == null)
+                {
+                    return RedirectToPage("./NotFound");
+                }
+                Product = product;
+               
             }
-            Product = product;
+            else
+            {
+                Product = new Product();
+
+            }
+
             return Page();
+
+        }
+
+        public IActionResult OnPost()
+        {
+            if(!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (Product.ProductId>0)
+            {
+                Product = _productData.Update(Product);
+            }
+            else
+            {
+                Product = _productData.Add(Product);
+            }
+            TempData["Message"] = "Product Saved!";
+            return RedirectToPage("./ProductDetails", new { productId = Product.ProductId });
         }
     }
 }

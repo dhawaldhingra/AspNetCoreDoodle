@@ -2,7 +2,8 @@
 {
     public class ProductData : IProductData
     {
-        private IEnumerable<Product> products;
+        private IList<Product> products;
+        private int maxId = 4;
         public ProductData()
         {
             products = new List<Product>()
@@ -13,6 +14,17 @@
                 new Product(){Price = 50, ProductId = 4, ProductName = "Table", Category = ProductCategory.Household }
             };
         }
+
+        public Product Add(Product product)
+        {
+            if(product!=null)
+            {
+                product.ProductId = ++maxId;
+            }
+            products.Add(product);
+            return product;
+        }
+
         public Product GetProduct(int id)
         {
             return products.Where(p=>p.ProductId == id).FirstOrDefault();
@@ -33,6 +45,19 @@
         public IEnumerable<Product> GetProducts()
         {
             return products;
+        }
+
+        public Product Update(Product updatedProduct)
+        {
+            var product = products.Where(p=>p.ProductId==updatedProduct.ProductId).FirstOrDefault();    
+            if(product!=null)
+            {
+                product.Price = updatedProduct.Price;  
+                product.ProductName = updatedProduct.ProductName;
+                product.Category = updatedProduct.Category;
+            }
+
+            return product;
         }
     }
 }

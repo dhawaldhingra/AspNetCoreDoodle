@@ -5,6 +5,10 @@
 }
 
 <h2>@Model.Product.ProductName</h2>
+@if(Model.Message != null)
+{
+    <div class="alert alert-dark">@Model.Message</div>
+}
 
 <div>
     ID: @Model.Product.ProductId
@@ -12,5 +16,7 @@
 </div>
 <div>Name: @Model.Product.ProductName</div>
 <div>Price: @Model.Product.Price</div>
+
+
 
 <a asp-page="./Dhawal" class="btn btn-primary">All Products</a>

@@ -7,6 +7,8 @@ namespace AspNetCoreDoodle.Pages
     public class ProductDetailsModel : PageModel
     {
         private readonly IProductData _productData;
+        [TempData]
+        public string Message { get; set; }
 
         public Product Product { get; set; }
         public ProductDetailsModel(IProductData productData)

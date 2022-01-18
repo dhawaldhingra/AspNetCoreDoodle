@@ -12,5 +12,7 @@ namespace AspNetCoreDoodle.Data
 
         IEnumerable<Product> GetProducts(string searchTerm);
         Product GetProduct(int id);
+        Product Update(Product updatedProduct);
+        Product Add(Product product);
     }
 }
